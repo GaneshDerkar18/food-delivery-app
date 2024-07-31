@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard,{RestaurantCardPromoted} from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -30,42 +30,51 @@ const Body = () => {
             console.log("restaurants");
     }
 
+    const PromotedCard=RestaurantCardPromoted(RestaurantCard);
+
     const OnlineStatus=useOnlineStatus();
 
     if (OnlineStatus===false) return (<h1>looks like your offline,aren't you hungry</h1>);
 
     return listofRestaurant.length===0 ?  <Shimmer />:(
-        <div className="body">
-            <div className="filter">
-                <div className="search">
-                    <input type="text" className="search-box" value={searchText} onChange={(e)=>{
+        <div className="body items-center justify-between bg-gray-100">
+            <div className="filter flex justify-center">
+                <div className="search m-4 p-4">
+                    <input type="text" className="border border-solid border-black m-4 p-1 rounded-lg" placeholder="🔍Search" value={searchText} onChange={(e)=>{
                         setsearchText(e.target.value)
                     }} />
                     
-                    <button onClick={()=>{
+                    <button className="px-3 py-1 m-4 bg-blue-500 rounded-md" onClick={()=>{
                         
                         console.log(searchText)
                         const filtersec=listofRestaurant.filter((e)=>
                             e.info.name.toLowerCase().includes(searchText.toLocaleLowerCase())
                         );
                         setfilteredres(filtersec)
-                    }}>Search</button>
+                    }} >Search</button>
                 </div>
-                <button className="filter-btn"
+                <div className="search m-4 p-4 flex items-center">
+                <button className="px-3 py-1 m-4 bg-gray-300 rounded-md"
                     onClick={() => {
                         const filteredlist = listofRestaurant.filter(
                             (res) => res.info.avgRating >= 4
                         );
                         setlistofRestaurant(filteredlist);
                     }}
-                >
+                    >
                     Filter Top Rated Restaurants
                 </button>
+                </div>
             </div>
-            <div className="res-container">
+            <div className="flex-wrap flex pl-12">
                 {
                     filteredres.map((restaurant) =>
-                        <Link key={restaurant?.info?.id} to={"/restaurants/"+restaurant?.info?.id} > <RestaurantCard  resData={restaurant} /></Link>
+                        <Link key={restaurant?.info?.id} to={"/restaurants/"+restaurant?.info?.id} > 
+                        {   
+                            restaurant.info.promoted ? <PromotedCard resData={restaurant}/>:
+                            <RestaurantCard  resData={restaurant} />
+                        }
+                        </Link>
                     )
                 }
             </div>
