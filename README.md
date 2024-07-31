@@ -1,9 +1,5 @@
 Food Delivery Application using react js
-{
 
-//
-
-}
 Technologies Used
 React.js
 HTML
@@ -20,7 +16,7 @@ Installation
 
 Clone the repository:
 
-git clone https://github.com/your-username/project-name.git
+git clone https://github.com/18grd/food-delivery-app.git
 Navigate into the project directory:
 
 
@@ -28,7 +24,8 @@ cd project-name
 Install dependencies:
 
 npm install
-Usage
+npm install react-router-dom
+
 Start the development server:
 
 
